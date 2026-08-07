@@ -1,7 +1,7 @@
 # calottery-scratchers-ev
 
-**Live report:** updated daily via GitHub Actions — see the "Deploy to
-Pages" workflow run for the current URL (Settings → Pages once enabled).
+**Live report:** https://shredthagnar.github.io/calottery-scratchers-ev/
+— regenerated daily by [GitHub Actions](.github/workflows/daily-report.yml).
 
 Statistical expected-value analysis of California Lottery Scratchers,
 built entirely from data the CA Lottery itself publishes for
