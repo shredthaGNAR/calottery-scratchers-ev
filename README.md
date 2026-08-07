@@ -1,5 +1,8 @@
 # calottery-scratchers-ev
 
+**Live report:** updated daily via GitHub Actions — see the "Deploy to
+Pages" workflow run for the current URL (Settings → Pages once enabled).
+
 Statistical expected-value analysis of California Lottery Scratchers,
 built entirely from data the CA Lottery itself publishes for
 transparency: per game, per prize tier, how many prizes were printed
@@ -82,6 +85,13 @@ PYTHONPATH=src pytest
 ```
 
 Tests run against a small synthetic fixture, not the live API.
+
+## Automated daily report
+
+[`.github/workflows/daily-report.yml`](.github/workflows/daily-report.yml)
+runs once a day (and on-demand via the Actions tab): it fetches the
+latest public dataset, regenerates the HTML report, and publishes it to
+GitHub Pages. No secrets are required since the data source is public.
 
 ## Project layout
 

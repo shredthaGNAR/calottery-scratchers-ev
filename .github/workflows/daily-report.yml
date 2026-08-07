@@ -1,0 +1,49 @@
+name: Daily scratchers report
+
+on:
+  schedule:
+    # 13:00 UTC = 6:00am America/Los_Angeles (7:00am during PDT... close enough for a daily refresh)
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch latest public data
+        run: PYTHONPATH=src python -m calottery_scratchers --data-dir data fetch
+
+      - name: Generate report
+        run: PYTHONPATH=src python -m calottery_scratchers --data-dir data report --out site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

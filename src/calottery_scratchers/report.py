@@ -120,4 +120,5 @@ def to_html(stats: list[GameStats], generated_at: str) -> str:
 
 
 def write_html(stats: list[GameStats], path: Path, generated_at: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(to_html(stats, generated_at))
