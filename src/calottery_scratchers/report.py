@@ -59,29 +59,29 @@ def to_csv(stats: list[GameStats]) -> str:
     return buf.getvalue()
 
 
+STYLES_DIR = Path(__file__).parent / "styles"
+# Design-system stylesheets, in load order: tokens (CSS variables per theme),
+# then the .sev-* component classes that read them.
+STYLESHEETS = ("tokens.css", "bundle.css")
+
+
+def _inline_styles() -> str:
+    return "\n".join((STYLES_DIR / name).read_text() for name in STYLESHEETS)
+
+
 _HTML_TEMPLATE = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
 <title>CA Lottery Scratchers -- Expected Value Ranking</title>
 <style>
-  body {{ font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; color: #1a1a1a; }}
-  h1 {{ font-size: 1.4rem; }}
-  .disclaimer {{ background: #fff8e1; border: 1px solid #e0c36b; padding: 0.75rem 1rem;
-                 border-radius: 6px; font-size: 0.9rem; margin-bottom: 1.5rem; }}
-  table {{ border-collapse: collapse; width: 100%; font-size: 0.9rem; }}
-  th, td {{ border: 1px solid #ddd; padding: 0.4rem 0.6rem; text-align: right; }}
-  th {{ background: #f4f4f4; position: sticky; top: 0; }}
-  td:nth-child(2), th:nth-child(2) {{ text-align: left; }}
-  tr:nth-child(even) {{ background: #fafafa; }}
-  .positive {{ color: #1a7a1a; }}
-  .negative {{ color: #b02a2a; }}
-  footer {{ margin-top: 1.5rem; font-size: 0.8rem; color: #666; }}
+{styles}
 </style>
 </head>
-<body>
-<h1>CA Lottery Scratchers -- Expected Value Ranking</h1>
-<p class="disclaimer">
+<body class="sev-report">
+<h1 class="sev-title">CA Lottery Scratchers -- Expected Value Ranking</h1>
+<p class="sev-disclaimer">
   Statistical estimates derived from the CA Lottery's public remaining-prize
   data, generated at {generated_at}. This ranks games by estimated expected
   return, not individual ticket outcomes -- it cannot predict which specific
@@ -89,13 +89,13 @@ _HTML_TEMPLATE = """<!doctype html>
   retailers, which is an approximation. Lottery play has negative expected
   value overall; please play responsibly.
 </p>
-<table>
+<table class="sev-table">
 <thead><tr>{header_cells}</tr></thead>
 <tbody>
 {body_rows}
 </tbody>
 </table>
-<footer>Source: calottery.com public scratchers API.</footer>
+<footer class="sev-footer">Source: calottery.com public scratchers API.</footer>
 </body>
 </html>
 """
@@ -106,13 +106,14 @@ def to_html(stats: list[GameStats], generated_at: str) -> str:
     body_rows = []
     for s in stats:
         cells = _row_values(s)
-        edge_class = "positive" if s.edge_pct >= 0 else "negative"
+        edge_class = "sev-positive" if s.edge_pct >= 0 else "sev-negative"
         tds = "".join(
             f'<td class="{edge_class}">{html.escape(c)}</td>' if i == 5 else f"<td>{html.escape(c)}</td>"
             for i, c in enumerate(cells)
         )
         body_rows.append(f"<tr>{tds}</tr>")
     return _HTML_TEMPLATE.format(
+        styles=_inline_styles(),
         generated_at=html.escape(generated_at),
         header_cells=header_cells,
         body_rows="\n".join(body_rows),

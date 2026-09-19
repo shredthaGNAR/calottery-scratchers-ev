@@ -34,6 +34,10 @@ jobs:
       - name: Generate report
         run: PYTHONPATH=src python -m calottery_scratchers --data-dir data report --out site/index.html
 
+      # The report inlines these; publishing them too lets other pages link the design system.
+      - name: Publish design-system stylesheets
+        run: cp src/calottery_scratchers/styles/tokens.css src/calottery_scratchers/styles/bundle.css site/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

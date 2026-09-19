@@ -1,0 +1,58 @@
+/* Scratchers EV — the report's stylesheet, transcribed from
+   src/calottery_scratchers/report.py (_HTML_TEMPLATE) onto tokens.
+   The source styles bare elements (body, h1, table…); these are the same
+   rules scoped under .sev-* classes so they can sit inside other pages. */
+
+.sev-report {
+  font-family: var(--font-sans);
+  margin: var(--space-page);
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.sev-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.sev-disclaimer {
+  background: var(--notice-bg);
+  border: var(--border-hairline) solid var(--notice-border);
+  padding: var(--space-notice-y) var(--space-notice-x);
+  border-radius: var(--radius-notice);
+  font-size: 0.9rem;
+  margin: 0 0 var(--space-section);
+}
+
+.sev-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+.sev-table th,
+.sev-table td {
+  border: var(--border-hairline) solid var(--rule);
+  padding: var(--space-cell-y) var(--space-cell-x);
+  text-align: right;
+}
+.sev-table th {
+  background: var(--header-bg);
+  position: sticky;
+  top: 0;
+}
+.sev-table td:nth-child(2),
+.sev-table th:nth-child(2) {
+  text-align: left;
+}
+.sev-table tr:nth-child(even) {
+  background: var(--row-stripe);
+}
+
+.sev-positive { color: var(--positive); }
+.sev-negative { color: var(--negative); }
+
+.sev-footer {
+  margin-top: var(--space-section);
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}

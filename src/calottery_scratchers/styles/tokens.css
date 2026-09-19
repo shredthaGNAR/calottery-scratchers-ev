@@ -1,0 +1,85 @@
+/* Scratchers EV design tokens, generated from the design system's tokens.json.
+ * Themes: light (default), dark, light-cvd, dark-cvd. With no data-theme set,
+ * the page follows the reader's system light/dark setting. The -cvd themes swap
+ * the Edge colours to a blue/orange pair that is safe for red-green colour
+ * blindness; opt in with <html data-theme="light-cvd"> (or dark-cvd). */
+
+:root,
+[data-theme="light"] {
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --ink-muted: #666666;
+  --notice-bg: #fff8e1;
+  --notice-border: #e0c36b;
+  --header-bg: #f4f4f4;
+  --row-stripe: #fafafa;
+  --rule: #dddddd;
+  --positive: #1a7a1a;
+  --negative: #b02a2a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --surface: #161616;
+    --ink: #ededed;
+    --ink-muted: #a3a3a3;
+    --notice-bg: #2b2513;
+    --notice-border: #8f7a3a;
+    --header-bg: #262626;
+    --row-stripe: #1d1d1d;
+    --rule: #6b6b6b;
+    --positive: #5cbf5c;
+    --negative: #ff8080;
+  }
+}
+
+[data-theme="dark"] {
+  --surface: #161616;
+  --ink: #ededed;
+  --ink-muted: #a3a3a3;
+  --notice-bg: #2b2513;
+  --notice-border: #8f7a3a;
+  --header-bg: #262626;
+  --row-stripe: #1d1d1d;
+  --rule: #6b6b6b;
+  --positive: #5cbf5c;
+  --negative: #ff8080;
+}
+
+[data-theme="light-cvd"] {
+  --surface: #ffffff;
+  --ink: #1a1a1a;
+  --ink-muted: #666666;
+  --notice-bg: #fff8e1;
+  --notice-border: #e0c36b;
+  --header-bg: #f4f4f4;
+  --row-stripe: #fafafa;
+  --rule: #dddddd;
+  --positive: #0068a8;
+  --negative: #b34a00;
+}
+
+[data-theme="dark-cvd"] {
+  --surface: #161616;
+  --ink: #ededed;
+  --ink-muted: #a3a3a3;
+  --notice-bg: #2b2513;
+  --notice-border: #8f7a3a;
+  --header-bg: #262626;
+  --row-stripe: #1d1d1d;
+  --rule: #6b6b6b;
+  --positive: #62b0f0;
+  --negative: #f5a05a;
+}
+
+:root {
+  --space-page: 2rem;
+  --space-section: 1.5rem;
+  --space-notice-x: 1rem;
+  --space-notice-y: 0.75rem;
+  --space-cell-x: 0.6rem;
+  --space-cell-y: 0.4rem;
+  --radius-notice: 6px;
+  --border-hairline: 1px;
+  --font-sans: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
