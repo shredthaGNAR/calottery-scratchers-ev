@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 from dataclasses import dataclass, field
 
 
@@ -54,7 +55,12 @@ class Game:
         tiers = [PrizeTier.from_api(t) for t in raw.get("prizeTiers", [])]
         return cls(
             game_number=int(raw["gameNumber"]),
-            name=raw.get("name") or raw.get("marketingTitle") or f"Game {raw.get('gameNumber')}",
+            # The API sends names HTML-escaped ("LOTERIA&trade;"); decode once
+            # here so every output carries the real characters and the HTML
+            # report re-escapes them itself.
+            name=html.unescape(
+                raw.get("name") or raw.get("marketingTitle") or f"Game {raw.get('gameNumber')}"
+            ),
             price=float(raw["price"]),
             game_type=raw.get("gameType") or "",
             product_page=raw.get("productPage") or "",

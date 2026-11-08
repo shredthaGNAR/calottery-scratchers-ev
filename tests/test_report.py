@@ -31,3 +31,13 @@ def test_html_marks_edge_cell_and_escapes_names():
     page = to_html([analyze_game(make_game())], generated_at="2026-01-01T00:00:00Z")
     assert 'class="sev-positive"' in page or 'class="sev-negative"' in page
     assert "Test &lt;Game&gt;" in page
+
+
+def test_api_names_are_unescaped_once():
+    game = Game.from_api({
+        "gameNumber": 1749,
+        "name": "LOTERIA&trade; Grande &amp; More",
+        "price": 20.0,
+        "prizeTiers": [],
+    })
+    assert game.name == "LOTERIA™ Grande & More"
